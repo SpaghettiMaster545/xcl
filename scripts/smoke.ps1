@@ -12,11 +12,14 @@
 param(
     [Parameter(Mandatory = $true)][string]$Game,
     [int]$Seconds = 60,
-    [string]$Xcl = (Join-Path $PSScriptRoot '..\target\release\xcl.exe'),
+    [string]$Xcl,
     [string]$Title,
     [string]$OutDir
 )
 $ErrorActionPreference = 'Stop'
+# Windows PowerShell 5.1 leaves $PSScriptRoot empty in this script's parameter defaults when it is
+# started with -File, so the default is set here
+if (-not $Xcl) { $Xcl = Join-Path $PSScriptRoot '..\target\release\xcl.exe' }
 
 if ($PSBoundParameters.ContainsKey('Title')) {
     $Title = $Title.Trim()
